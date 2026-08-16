@@ -1,0 +1,1 @@
+<p>Be careful! You're about to delete <strong>service</strong> page with ID: <?php echo e($id); ?></p>

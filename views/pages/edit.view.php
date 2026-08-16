@@ -1,0 +1,1 @@
+<p>You're abtout to edit page with ID: <?php echo e($id); ?></p>

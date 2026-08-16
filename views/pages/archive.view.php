@@ -1,0 +1,1 @@
+<p>Imagine here list of blog posts</p>
