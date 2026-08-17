@@ -1,32 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Controllers\AbstractPagesController;
+use App\Core\View;
 
 class ServicesController extends AbstractPagesController {
+
+	public function __construct(private View $view) {}
+
 	public function renderArchive(): void {
-		$this->render( 'services/archive.view', [] );
+		$this->view->render( 'services/archive.view', [] );
 	}
 
 	public function renderSingle($slug): void {
-		$this->render( 'services/single.view', [
+		$this->view->render( 'services/single.view', [
 			'slug' => $slug,
 		] );
 	}
 
 	public function create(): void {
-		$this->render( 'services/create.view', [] );
+		$this->view->render( 'services/create.view', [] );
 	}
 
 	public function edit($id): void {
-		$this->render( 'services/edit.view', [
+		$this->view->render( 'services/edit.view', [
 			'id' => $id,
 		] );
 	}
 
 	public function delete($id): void {
-		$this->render( 'services/delete.view', [
+		$this->view->render( 'services/delete.view', [
 			'id' => $id,
 		] );
 	}
