@@ -8,11 +8,11 @@ class View {
 	public function render( string $view, array $pageData = [] ): void {
 		extract( $pageData );
 		ob_start();
-		require __DIR__ . '/../../views/' . $view . '.php';
+		require dirname(__DIR__) . '/resources/views/' . $view . '.php';
 
 		$contents = ob_get_clean();
 
-		require __DIR__ . '/../../views/layouts/main.view.php';
+		require dirname(__DIR__) . '/resources/views/layouts/main.view.php';
 	}
 }
 

@@ -1,2 +1,3 @@
 RewriteEngine On
-RewriteRule ^ index.php
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule (.*) public/$1 [L]

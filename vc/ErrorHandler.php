@@ -18,7 +18,7 @@ class ErrorHandler {
 	}
 
 	public static function handleException( Throwable $exception ): void {
-		$showErrors = env('ERR_SHOW'); // FIX here
+		$showErrors = env('ERR_SHOW');
 		$writeLog   = env('ERR_LOG');
 
 
