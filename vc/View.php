@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core;
+namespace VC;
 
 class View {
 	public function render( string $view, array $pageData = [] ): void {
@@ -14,14 +14,5 @@ class View {
 
 		require __DIR__ . '/../../views/layouts/main.view.php';
 	}
-
-	public function error(int $code ): void {
-		http_response_code( $code );
-		$this->render( 'abstract/error.view', [
-			'code' => $code,
-		] );
-		exit();
-	}
 }
 
-// create view class with possibility to pass data into head and footer

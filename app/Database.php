@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace App;
 
@@ -11,23 +11,20 @@ class Database {
 		private readonly string $host,
 		private readonly string $dbName,
 		private readonly string $username,
-		private readonly string $password ) {}
+		private readonly string $password
+	) {
+	}
 
 	private null|PDO $pdo = null;
 
 	public function getConnection(): PDO {
 		if ( $this->pdo === null ) {
-			try {
-				$this->pdo = new PDO( "mysql:host=$this->host;dbname=$this->dbName;charset=utf8mb4", "$this->username",
-					"$this->password", [
-						PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-						PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-						PDO::ATTR_TIMEOUT            => 5
-					] );
-			} catch
-			( PDOException $e ) {
-				die( "Could not connect to the database: " . $e->getMessage() );
-			}
+			$this->pdo = new PDO( "mysql:host=$this->host;dbname=$this->dbName;charset=utf8mb4", "$this->username",
+				"$this->password", [
+					PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+					PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+					PDO::ATTR_TIMEOUT            => 5
+				] );
 		}
 
 		return $this->pdo;

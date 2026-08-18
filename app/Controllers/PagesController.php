@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Controllers\AbstractPagesController;
-use App\Core\View;
 use App\Model\Page;
-use PDO;
+use VC\View;
 
 class PagesController extends AbstractPagesController {
 

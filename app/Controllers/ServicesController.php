@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Controllers\AbstractPagesController;
-use App\Core\View;
+use VC\View;
 
 class ServicesController extends AbstractPagesController {
 
