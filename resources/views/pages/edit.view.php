@@ -13,14 +13,14 @@
            class="mt-6 w-full border-b border-line bg-transparent pb-2 font-display font-semibold leading-tight tracking-tight text-ink text-2xl outline-none transition-colors focus:border-accent md:text-3xl">
 
     <!-- vanilla-core stamp -->
-    <div class="mt-8 flex items-center gap-4">
+    <div class="mt-4 flex items-center gap-4">
         <span class="h-px w-10 bg-line"></span>
         <span class="font-mono text-sm text-accent-deep">Editing</span>
     </div>
 
     <!-- description → textarea -->
     <textarea name="description" rows="10" required
-              class="mt-6 w-full resize-y border border-line bg-surface px-4 py-3 leading-relaxed text-ink/85 text-content-text outline-none transition-colors focus:border-accent"><?= e( $pageData['description'] ) ?></textarea>
+              class="mt-10 w-full resize-y border border-line bg-surface px-4 py-3 leading-relaxed text-ink/85 text-content-text outline-none transition-colors focus:border-accent"><?= e( $pageData['description'] ) ?></textarea>
 
     <!-- single save button -->
     <button type="submit"

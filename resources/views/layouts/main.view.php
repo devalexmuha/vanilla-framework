@@ -5,7 +5,7 @@
     <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css"/>
-    <title>Vanilla Core</title>
+    <title><?= e($pageData['name'] ?? 'Vanilla Core')?></title>
 </head>
 <body>
 <div class="min-h-screen w-full max-w-full bg-paper text-ink font-sans flex flex-col">

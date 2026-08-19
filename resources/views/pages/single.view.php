@@ -22,7 +22,7 @@
     </div>
 
     <!-- admin actions -->
-<!--    --><?php //if ( ! empty( $_SESSION['user_logged_in'] ) ): ?>
+    <?php if ( ! empty( $_SESSION['user_logged_in'] ) ): ?>
         <div class="mt-10 flex items-center gap-4 border-t border-line pt-6 font-mono text-sm">
 
             <a href="/page/<?= e( $pageData['id'] ) ?>/edit/"
@@ -40,6 +40,6 @@
             </form>
 
         </div>
-<!--    --><?php //endif; ?>
+    <?php endif; ?>
 
 </article>
