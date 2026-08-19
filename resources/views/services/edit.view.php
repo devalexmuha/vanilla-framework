@@ -1,1 +1,0 @@
-<p>You're abtout to edit <strong>service</strong> page with ID: <?php echo e($id); ?></p>

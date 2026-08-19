@@ -1,1 +1,0 @@
-<p>Be careful! You're about to delete page with ID: <?php echo e($id); ?></p>

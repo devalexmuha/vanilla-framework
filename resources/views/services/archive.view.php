@@ -1,1 +1,0 @@
-<p>Imagine here list of service pages</p>

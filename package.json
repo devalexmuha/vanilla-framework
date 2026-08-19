@@ -1,0 +1,23 @@
+{
+  "name": "vanilla-core-framework",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm:dev:css\" \"npm:dev:js\"",
+    "dev:css": "npx @tailwindcss/cli -i resources/css/input.css -o public/css/style.css --watch",
+    "dev:js": "vite build --watch",
+
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "npx @tailwindcss/cli -i resources/css/input.css -o public/css/style.css --minify",
+    "build:js": "vite build"
+  },
+  "devDependencies": {
+    "vite": "^8.1.1",
+    "concurrently": "^9.0.0"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

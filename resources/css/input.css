@@ -1,0 +1,56 @@
+/* Retro-vanilla display serif + clean body + dev mono */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+@source "../views";
+
+@theme {
+    /* ── VANILLA SCALE: warm cream → retro yellow ── */
+    --color-vanilla-50:  #fffdf6;
+    --color-vanilla-100: #fdf8ea;
+    --color-vanilla-200: #f8efd2;
+    --color-vanilla-300: #f0e0ac;
+    --color-vanilla-400: #e6cd7d;
+    --color-vanilla-500: #d9b34c;
+    --color-vanilla-600: #bd943a;
+
+    --color-ink:      #35291b;   /* warm near-black brown — body text  */
+    --color-ink-soft: #7a6a52;   /* muted brown — secondary text       */
+
+    /* ── ACCENT: retro paprika red (a warmed nod to Laravel's red) ── */
+    --color-accent:      #d64a30;
+    --color-accent-deep: #b23a24;
+
+    /* ── SEMANTIC TOKENS (pages use THESE) ── */
+    --color-paper:     var(--color-vanilla-100);  /* page background */
+    --color-surface:   var(--color-vanilla-50);   /* cards / inputs  */
+    --color-line:      var(--color-vanilla-300);  /* borders / rules */
+    --color-on-accent: #fffdf6;                   /* text on accent  */
+
+    /* ── TYPE FAMILIES ── */
+    --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-sans:    "Inter", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+    /* ── FLUID TYPE SCALE (px → vw at a 1920 design width) ── */
+    --text-eyebrow: clamp(1rem,    calc(22 / 1920 * 100vw), 1.5rem);    /* "Welcome" — middle   */
+    --text-version: clamp(1.6rem,  calc(46 / 1920 * 100vw), 3rem);      /* "v—1" — between      */
+    --text-hero:    clamp(3.25rem, calc(150 / 1920 * 100vw), 9.5rem);   /* "Vanilla Core" — big */
+    --text-tag:     clamp(0.95rem, calc(19 / 1920 * 100vw), 1.15rem);   /* tagline              */
+    --text-fluid-lg: clamp(1.5rem,   calc(32 / 1920 * 100vw), 2.25rem);
+    --text-fluid-xl: clamp(2rem,     calc(56 / 1920 * 100vw), 4rem);
+    --text-fluid-base: clamp(1rem, calc(20 / 1920 * 100vw), 1.25rem);
+    --text-content-text: clamp(0.8333rem, calc(16.6667 / 1920 * 100vw), 1.0417rem);
+}
+
+/* ── FLUID CONTAINER ── */
+:root {
+    --design-width: 1920;
+    --container: clamp(20rem, calc(1600 / var(--design-width) * 100vw), 100rem);
+}
+
+@utility container {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: 2rem;
+}

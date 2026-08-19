@@ -4,4 +4,4 @@ namespace App\Model;
 
 use VC\Model;
 
-class Page extends Model{}
+class Service extends Model {}

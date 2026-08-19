@@ -17,7 +17,7 @@ class Database {
 
 	private null|PDO $pdo = null;
 
-	public function getConnection(): PDO {
+	public function connect(): PDO {
 		if ( $this->pdo === null ) {
 			$this->pdo = new PDO( "mysql:host=$this->host;dbname=$this->dbName;charset=utf8mb4", "$this->username",
 				"$this->password", [
