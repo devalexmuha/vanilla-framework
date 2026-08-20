@@ -92,4 +92,94 @@ abstract class Model {
 		return $results;
 	}
 
+	public function insert( array $data ): bool {
+		$columns = implode(", ", array_keys($data));
+		$placeholders = implode(", ", array_fill(0, count($data), "?"));
+
+		$sql = "INSERT INTO {$this->getTableName()} ($columns)
+                VALUES ($placeholders)";
+
+		$conn = $this->db->connect();
+
+		$stmt = $conn->prepare($sql);
+
+		$i = 1;
+
+		foreach ($data as $value) {
+
+			$type = match(gettype($value)) {
+				"boolean" => PDO::PARAM_BOOL,
+				"integer" => PDO::PARAM_INT,
+				"NULL" => PDO::PARAM_NULL,
+				default => PDO::PARAM_STR
+			};
+
+			$stmt->bindValue($i++, $value, $type);
+
+		}
+
+		return $stmt->execute();
+	}
+
+	public function delete(string $id): bool
+	{
+		$sql = "DELETE FROM {$this->getTableName()}
+                WHERE id = :id";
+
+		$conn = $this->db->connect();
+
+		$stmt = $conn->prepare($sql);
+
+		$stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+		return $stmt->execute();
+	}
+
+	public function update(string $id, array $data): bool
+	{
+		$this->validate($data);
+
+		if ( ! empty($this->errors)) {
+			return false;
+		}
+
+		$sql = "UPDATE {$this->getTableName()} ";
+
+		unset($data["id"]);
+
+		$assignments = array_keys($data);
+
+		array_walk($assignments, function (&$value) {
+			$value = "$value = ?";
+		});
+
+		$sql .= " SET " . implode(", ", $assignments);
+
+		$sql .= " WHERE id = ?";
+
+		$conn = $this->db->connect();
+
+		$stmt = $conn->prepare($sql);
+
+		$i = 1;
+
+		foreach ($data as $value) {
+
+			$type = match(gettype($value)) {
+				"boolean" => PDO::PARAM_BOOL,
+				"integer" => PDO::PARAM_INT,
+				"NULL" => PDO::PARAM_NULL,
+				default => PDO::PARAM_STR
+			};
+
+			$stmt->bindValue($i++, $value, $type);
+
+		}
+
+		$stmt->bindValue($i, $id, PDO::PARAM_INT);
+
+		return $stmt->execute();
+	}
+
+
 }

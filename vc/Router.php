@@ -5,29 +5,41 @@ declare(strict_types=1);
 namespace VC;
 
 class Router {
-	private array $routes = [];
+	private array $get_routes = [];
+	private array $post_routes = [];
 
-	public function add( string $path, array $params = [] ): void {
+	public function get( string $path, array $params = [] ): void {
 		if ( ! empty( $params ) ) {
-			$this->routes[ $path ] = [
+			$this->get_routes[ $path ] = [
 				'controller' => $params[0],
 				'method'     => $params[1],
 			];
 
 			return;
 		}
-		$this->routes[ $path ] = [];
+		$this->get_routes[ $path ] = [];
 	}
 
-	public function match( string $path ): bool|array {
-		$routes = $this->sortRoutes();
+	public function post( string $path, array $params = [] ): void {
+		if ( ! empty( $params ) ) {
+			$this->post_routes[ $path ] = [
+				'controller' => $params[0],
+				'method'     => $params[1],
+			];
+
+			return;
+		}
+		$this->post_routes[ $path ] = [];
+	}
+
+	public function match( string $path, string $request ): bool|array {
+		$routes = $this->sortRoutes($request);
 		$path = strtolower(trim($path, '/'));
 		foreach ( $routes as $route => $params ) {
 
 			$pattern = $this->getThePattern( $route );
 
 			if ( preg_match( $pattern, $path, $args ) ) {
-
 				$args = isset( $args[1] ) ? $this->buildArgsArr( $route, $args ) : [];
 
 				return [
@@ -40,9 +52,13 @@ class Router {
 		return false;
 	}
 
-	private function sortRoutes(): array {
-		$routes = $this->routes;
-		uksort( $routes, fn( $a, $b ) => $this->literalCount( $b ) <=> $this->literalCount( $a ) );
+	private function sortRoutes(string $request): array {
+		if($request === 'POST') {
+			$routes = $this->post_routes;
+		} else{
+			$routes = $this->get_routes;
+		}
+		uksort( $routes, fn( $a, $b ) => $this->literalCount( $b ) <=> $this->literalCount( $a ) ); // b -> a descending
 
 		return $routes;
 	}

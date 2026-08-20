@@ -1,6 +1,6 @@
 <?php /** @var array $pageData */ ?>
 
-<form action="/page/<?= e( $pageData['id'] ) ?>/update/" method="post" class="mx-auto max-w-2xl">
+<form action="/page/<?= e( $pageData['id'] ) ?>/" method="post" class="mx-auto max-w-2xl">
     <input type="hidden" name="csrf_token">
 
     <a href="/page/<?= e( $pageData['slug'] ) ?>"

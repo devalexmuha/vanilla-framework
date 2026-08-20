@@ -20,7 +20,7 @@
             </a>
 
             <!-- right: log in / log out (both built — wire the session flag as you like) -->
-            <?php if ( ! empty( $_SESSION['user_logged_in'] ) ): ?>
+            <?php if ( ! empty( $_SESSION['logged_in'] ) ): ?>
                 <div class="flex items-center gap-6 font-mono text-sm md:text-m">
                     <span class="text-ink-soft"><?= e( $_SESSION['user_email'] ?? '' ) ?></span>
 

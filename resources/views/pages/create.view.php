@@ -1,6 +1,6 @@
 <?php /** @var array $errors */ ?>
 
-<form action="/page/create" method="post" class="mx-auto max-w-2xl">
+<form action="/page/" method="post" class="mx-auto max-w-2xl">
     <input type="hidden" name="csrf_token">
 
     <a href="/pages"

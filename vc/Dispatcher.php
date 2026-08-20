@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace VC;
 
@@ -16,16 +16,18 @@ class Dispatcher {
 	) {
 	}
 
-	public function handle( string $path ): void {
+	public function handle( Request $request ): void {
 
-		$params = $this->router->match( $path );
+		$path = $this->getPath();
+
+		$params = $this->router->match( $path, $request->method );
 
 		if ( ! $params ) {
-			throw new PageNotFoundException("No route match the path: $path");
+			throw new PageNotFoundException( "No route match the path: $path" );
 		}
 
-		$className  = $params['controller'];
-		$method = $params['method'];
+		$className = $params['controller'];
+		$method    = $params['method'];
 
 		if ( ! class_exists( $className ) ) {
 			throw new PageNotFoundException( "Controller {$className} not found" );
@@ -43,4 +45,14 @@ class Dispatcher {
 		$controller->{$method}( ...$args );
 	}
 
+	protected function getPath(): string {
+		$path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
+
+		if ( $path === false ) {
+			throw new VC\Exceptions\PageNotFoundException( "Malformed URL:
+                                        '{$_SERVER["REQUEST_URI"]}'" );
+		}
+
+		return $path;
+	}
 }

@@ -10,5 +10,6 @@ $user = env('DB_USER');
 $pass = env('DB_PASS');
 
 $container->set( App\Database::class, fn () => new App\Database( $host, $name, $user, $pass ) );
+$container->set( App\Requests\PagesRequest::class, fn () => App\Requests\PagesRequest::createFromGlobals() );
 
 return $container;
