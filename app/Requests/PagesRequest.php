@@ -18,7 +18,7 @@ class PagesRequest extends Request {
 	}
 
 	public function errors(): string {
-		return 'Please enter at leas a name of page';
+		return 'Please enter at least a name of page';
 	}
 
 }

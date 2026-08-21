@@ -9,7 +9,7 @@
     </a>
 
     <!-- name → text input, styled to echo the h1 -->
-    <input type="text" name="name" required value="<?= e( $pageData['name'] ) ?>"
+    <input type="text" name="name" value="<?= e( $pageData['name'] ?? '' ) ?>"
            class="mt-6 w-full border-b border-line bg-transparent pb-2 font-display font-semibold leading-tight tracking-tight text-ink text-2xl outline-none transition-colors focus:border-accent md:text-3xl">
 
     <!-- vanilla-core stamp -->
@@ -20,7 +20,13 @@
 
     <!-- description → textarea -->
     <textarea name="description" rows="10" required
-              class="mt-10 w-full resize-y border border-line bg-surface px-4 py-3 leading-relaxed text-ink/85 text-content-text outline-none transition-colors focus:border-accent"><?= e( $pageData['description'] ) ?></textarea>
+              class="mt-10 w-full resize-y border border-line bg-surface px-4 py-3 leading-relaxed text-ink/85 text-content-text outline-none transition-colors focus:border-accent"><?= e( $pageData['description'] ?? '' ) ?></textarea>
+
+    <?php if ( ! empty( $error ) ): ?>
+        <p class="mt-4 font-mono text-sm text-accent-deep">
+            Name can't be empty.
+        </p>
+    <?php endif; ?>
 
     <!-- single save button -->
     <button type="submit"

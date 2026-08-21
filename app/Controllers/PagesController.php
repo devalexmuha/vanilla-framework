@@ -56,7 +56,10 @@ class PagesController extends Controller {
 			header('Location: /pages/');
 			exit();
 		}
-		$this->view->render( 'pages/create.view', ['error' => $this->request->errors()] );
+		$this->view->render( 'pages/create.view', [
+			'error' => $this->request->errors(),
+			'pageData' => $_POST,
+			]);
 
 	}
 
@@ -68,16 +71,33 @@ class PagesController extends Controller {
 	}
 
 	public function update($id): void {
-		dd($_POST, 'hi there');
+		$requestData = $this->request->validated();
+		if ($requestData) {
+
+			$data = [
+				'slug' => $requestData['slug'],
+				'name' => $requestData['name'],
+				'description' => $requestData['description'] ?? null,
+			];
+
+			$this->page->update($id, $data);
+			header("Location: /page/{$data['slug']}");
+			exit();
+		}
+		dd($_POST);
+		$pageData = $this->page->getById($id);
+		$pageData['name']        = $_POST['name'] ?? '';
+		$pageData['description'] = $_POST['description'] ?? '';
+
+		$this->view->render( 'pages/edit.view', [
+			'error' => $this->request->errors(),
+			'pageData' => $pageData,
+		]);
 	}
 
 	public function destroy($id): void {
-		dd($_POST);
+		$this->page->delete($id);
+		header('Location: /pages/');
+		exit();
 	}
-//
-//	public function delete( $id ): void {
-//		$this->view->render( 'pages/delete.view', [
-//			'id' => $id,
-//		] );
-//	}
 }

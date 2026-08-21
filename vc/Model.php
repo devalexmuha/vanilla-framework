@@ -137,11 +137,6 @@ abstract class Model {
 
 	public function update(string $id, array $data): bool
 	{
-		$this->validate($data);
-
-		if ( ! empty($this->errors)) {
-			return false;
-		}
 
 		$sql = "UPDATE {$this->getTableName()} ";
 

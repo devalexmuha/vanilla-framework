@@ -18,12 +18,12 @@ class Dispatcher {
 
 	public function handle( Request $request ): void {
 
-		$path = $this->getPath();
+		$path = $this->getPath($request->uri);
 
 		$params = $this->router->match( $path, $request->method );
 
 		if ( ! $params ) {
-			throw new PageNotFoundException( "No route match the path: $path" );
+			throw new PageNotFoundException( "No route match the path: $path with method $request->method." );
 		}
 
 		$className = $params['controller'];
@@ -45,8 +45,8 @@ class Dispatcher {
 		$controller->{$method}( ...$args );
 	}
 
-	protected function getPath(): string {
-		$path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
+	protected function getPath($uri): string {
+		$path = parse_url( $uri, PHP_URL_PATH );
 
 		if ( $path === false ) {
 			throw new VC\Exceptions\PageNotFoundException( "Malformed URL:

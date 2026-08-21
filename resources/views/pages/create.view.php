@@ -1,4 +1,4 @@
-<?php /** @var array $errors */ ?>
+<?php /** @var array $errors */?>
 
 <form action="/page/" method="post" class="mx-auto max-w-2xl">
     <input type="hidden" name="csrf_token">
@@ -10,7 +10,7 @@
 
     <!-- name → text input, styled to echo the h1 -->
     <input type="text" name="name" required autofocus
-           placeholder="Give it a name…"
+           placeholder="Give it a name…" value="<?= e( $pageData['name'] ?? '' ) ?>"
            class="mt-6 w-full border-b border-line bg-transparent pb-2 font-display font-semibold leading-tight tracking-tight text-ink text-2xl outline-none transition-colors placeholder:text-ink/30 focus:border-accent md:text-3xl">
 
     <!-- vanilla-core stamp -->
@@ -20,13 +20,13 @@
     </div>
 
     <!-- description → textarea -->
-    <textarea name="description" rows="10" required
+    <textarea name="description" rows="10"
               placeholder="Write something nice…"
-              class="mt-8 w-full resize-y border border-line bg-surface px-4 py-3 leading-relaxed text-ink/85 text-content-text outline-none transition-colors placeholder:text-ink/30 focus:border-accent"><?= e( $old['description'] ?? '' ) ?></textarea>
+              class="mt-8 w-full resize-y border border-line bg-surface px-4 py-3 leading-relaxed text-ink/85 text-content-text outline-none transition-colors placeholder:text-ink/30 focus:border-accent"><?= e( $pageData['description'] ?? '' ) ?></textarea>
 
-    <?php if ( ! empty( $errors ) ): ?>
+    <?php if ( ! empty( $error ) ): ?>
         <p class="mt-4 font-mono text-sm text-accent-deep">
-            Name and description can't be empty.
+            Name can't be empty.
         </p>
     <?php endif; ?>
 
