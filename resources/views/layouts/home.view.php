@@ -12,7 +12,7 @@
 </head>
 <body>
 <main>
-	<?php echo $contents; ?>
+    {{ $content }}
 </main>
 </body>
 </html>

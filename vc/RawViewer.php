@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VC;
 
-class View {
+class RawViewer {
 	public function render( string $view, array $pageData = [], string $layout = 'main' ): void {
 		extract( $pageData );
 		ob_start();

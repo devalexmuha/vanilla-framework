@@ -9,14 +9,14 @@ abstract class Controller
 {
     protected Request $request;
 
-    protected View $view;
+    protected RawViewer $view;
 
 	protected function setRequest(Request $request): void
     {
         $this->request = $request;
     }
 
-	protected function setView(View $view): void
+	protected function setView(RawViewer $view): void
     {
         $this->view = $view;
     }

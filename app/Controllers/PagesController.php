@@ -6,40 +6,36 @@ namespace App\Controllers;
 
 use App\Model\Page;
 use App\Requests\PagesRequest;
-use VC\Controller;
-use VC\View;
+use VC\TemplateViewer;
 
-class PagesController extends Controller {
+class PagesController {
 
 	public function __construct(
-		private Page $page,
-		PagesRequest $request,
-		View $view,
-	) {
-		$this->setRequest($request);
-		$this->setView($view);
-	}
+		private readonly Page $page,
+		private readonly PagesRequest $request,
+		private readonly TemplateViewer $view,
+	) {}
 
 	public function showHome(): void {
-		$this->view->render( 'pages/home.view', [], 'home' );
+		echo $this->view->render( 'pages/home.view', [] );
 	}
 
 	public function showArchive(): void {
 		$pageData = $this->page->getAll();
-		$this->view->render( 'pages/archive.view', [
+		echo $this->view->render( 'pages/archive.view', [
 			'pageData' => $pageData,
 		] );
 	}
 
 	public function showSingle( $slug ): void {
 		$pageData = $this->page->getByCol('slug', $slug);
-		$this->view->render( 'pages/single.view', [
+		echo $this->view->render( 'pages/single.view', [
 			'pageData' => $pageData,
 		] );
 	}
 
 	public function create(): void {
-		$this->view->render( 'pages/create.view', [] );
+		echo $this->view->render( 'pages/create.view', [] );
 	}
 
 	public function store(): void {
@@ -56,7 +52,7 @@ class PagesController extends Controller {
 			header('Location: /pages/');
 			exit();
 		}
-		$this->view->render( 'pages/create.view', [
+		echo $this->view->render( 'pages/create.view', [
 			'error' => $this->request->errors(),
 			'pageData' => $_POST,
 			]);
@@ -65,7 +61,7 @@ class PagesController extends Controller {
 
 	public function edit( $id ): void {
 		$pageData = $this->page->getById($id);
-		$this->view->render( 'pages/edit.view', [
+		echo $this->view->render( 'pages/edit.view', [
 			'pageData' => $pageData,
 		] );
 	}
@@ -84,12 +80,11 @@ class PagesController extends Controller {
 			header("Location: /page/{$data['slug']}");
 			exit();
 		}
-		dd($_POST);
 		$pageData = $this->page->getById($id);
 		$pageData['name']        = $_POST['name'] ?? '';
 		$pageData['description'] = $_POST['description'] ?? '';
 
-		$this->view->render( 'pages/edit.view', [
+		echo $this->view->render( 'pages/edit.view', [
 			'error' => $this->request->errors(),
 			'pageData' => $pageData,
 		]);

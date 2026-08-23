@@ -5,7 +5,7 @@
     <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css"/>
-    <title><?= e($pageData['name'] ?? 'Vanilla Core')?></title>
+    <title>{{ $pageData['name'] ?? 'Vanilla Core' }}</title>
 </head>
 <body>
 <div class="min-h-screen w-full max-w-full bg-paper text-ink font-sans flex flex-col">
@@ -20,9 +20,9 @@
             </a>
 
             <!-- right: log in / log out (both built — wire the session flag as you like) -->
-            <?php if ( ! empty( $_SESSION['logged_in'] ) ): ?>
+            @if ( ! empty( $_SESSION['logged_in'] ) )
                 <div class="flex items-center gap-6 font-mono text-sm md:text-m">
-                    <span class="text-ink-soft"><?= e( $_SESSION['user_email'] ?? '' ) ?></span>
+                    <span class="text-ink-soft">{{ $_SESSION['user_email'] ?? '' }}</span>
 
                     <a href="/page/create/"
                        class="border border-accent bg-accent px-4 py-1.5 uppercase tracking-wider text-on-accent transition-colors hover:bg-transparent hover:text-accent">
@@ -41,14 +41,14 @@
                    class="font-mono text-sm md:uppercase tracking-wider text-accent underline-offset-4 transition-colors hover:underline">
                     Log in
                 </a>
-            <?php endif; ?>
+            @endif
 
         </div>
     </header>
 
     <!-- ── CONTENT ── -->
     <main class="w-full flex-1">
-        <div class="container py-12"><?php echo $contents; ?></div>
+        <div class="container py-12">{{ $content }}</div>
     </main>
 
     <!-- ── FOOTER ── -->
