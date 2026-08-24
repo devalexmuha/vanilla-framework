@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Controllers\AuthController;
+use App\Controllers\SessionsController;
 use App\Controllers\PagesController;
 use VC\Router;
 
@@ -17,8 +17,11 @@ $router->get( '/page/{id}/edit/', [ PagesController::class, 'edit' ] );
 $router->post( '/page/{id}/', [ PagesController::class, 'update' ] );
 $router->post( '/page/{id}/delete/', [ PagesController::class, 'destroy' ] );
 
-$router->get( '/log-in/', [ AuthController::class, 'create' ] );
-$router->post( '/log-in/', [ AuthController::class, 'store' ] );
-$router->post( '/log-out/', [ AuthController::class, 'destroy' ] );
+$router->get( '/log-in/', [ SessionsController::class, 'create' ] );
+$router->post( '/log-in/', [ SessionsController::class, 'store' ] );
+$router->post( '/log-out/', [ SessionsController::class, 'destroy' ] );
 
 return $router;
+
+// protect any post request by Middleware (user should be logged in).
+// verify csrf token by Middleware.

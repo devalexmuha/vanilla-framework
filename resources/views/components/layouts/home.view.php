@@ -11,8 +11,8 @@
 	<title>Vanilla Core Framework</title>
 </head>
 <body>
-<main>
-    {{ $content }}
+<main class="min-h-screen w-full max-w-full overflow-hidden bg-paper text-ink font-sans flex items-center justify-center">
+    {{ view }}
 </main>
 </body>
 </html>

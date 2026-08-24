@@ -12,14 +12,13 @@ $dotenv->load();
 set_error_handler( "VC\ErrorHandler::handleError" );
 set_exception_handler( "VC\ErrorHandler::handleException" );
 
-if ( empty( session_id() ) ) {
-	session_start();
-	$_SESSION["logged_in"] = true;
-}
+VC\Auth::startSession();
 
 $router    = require_once ROOT_PATH . '/routes/web.php';
 $container = require_once ROOT_PATH . '/config/container.php';
 
 $dispatcher = new VC\Dispatcher( $router, $container );
 
-$dispatcher->handle(VC\Request::createFromGlobals());
+$request = VC\Request::createFromGlobals();
+$response = $dispatcher->handle($request);
+$response->send();

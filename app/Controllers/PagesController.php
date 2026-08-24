@@ -6,39 +6,45 @@ namespace App\Controllers;
 
 use App\Model\Page;
 use App\Requests\PagesRequest;
+use JetBrains\PhpStorm\NoReturn;
+use VC\Controller;
+use VC\Response;
 use VC\TemplateViewer;
 
-class PagesController {
+class PagesController extends Controller{
 
 	public function __construct(
 		private readonly Page $page,
-		private readonly PagesRequest $request,
-		private readonly TemplateViewer $view,
-	) {}
-
-	public function showHome(): void {
-		echo $this->view->render( 'pages/home.view', [] );
+		PagesRequest $request,
+		TemplateViewer $viewer,
+	) {
+		$this->setRequest($request);
+		$this->setViewer($viewer);
 	}
 
-	public function showArchive(): void {
+	public function showHome(): Response {
+		return $this->view( 'pages.home', [] );
+	}
+
+	public function showArchive(): Response {
 		$pageData = $this->page->getAll();
-		echo $this->view->render( 'pages/archive.view', [
+		return $this->view( 'pages.archive', [
 			'pageData' => $pageData,
 		] );
 	}
 
-	public function showSingle( $slug ): void {
+	public function showSingle( $slug ): Response {
 		$pageData = $this->page->getByCol('slug', $slug);
-		echo $this->view->render( 'pages/single.view', [
+		return $this->view( 'pages.single', [
 			'pageData' => $pageData,
 		] );
 	}
 
-	public function create(): void {
-		echo $this->view->render( 'pages/create.view', [] );
+	public function create(): Response {
+		return $this->view( 'pages.create', [] );
 	}
 
-	public function store(): void {
+	public function store(): Response {
 		$requestData = $this->request->validated();
 		if ($requestData) {
 
@@ -49,24 +55,24 @@ class PagesController {
 			];
 
 			$this->page->insert($data);
-			header('Location: /pages/');
-			exit();
+			return $this->redirect('/pages/');
+
 		}
-		echo $this->view->render( 'pages/create.view', [
+		return $this->view( 'pages.create', [
 			'error' => $this->request->errors(),
 			'pageData' => $_POST,
 			]);
 
 	}
 
-	public function edit( $id ): void {
+	public function edit( $id ): Response {
 		$pageData = $this->page->getById($id);
-		echo $this->view->render( 'pages/edit.view', [
+		return $this->view( 'pages.edit', [
 			'pageData' => $pageData,
 		] );
 	}
 
-	public function update($id): void {
+	public function update($id): Response {
 		$requestData = $this->request->validated();
 		if ($requestData) {
 
@@ -77,22 +83,22 @@ class PagesController {
 			];
 
 			$this->page->update($id, $data);
-			header("Location: /page/{$data['slug']}");
-			exit();
+			return $this->redirect("/page/{$data['slug']}");
+
 		}
 		$pageData = $this->page->getById($id);
-		$pageData['name']        = $_POST['name'] ?? '';
-		$pageData['description'] = $_POST['description'] ?? '';
+		$pageData['name']        = $this->request->post['name'] ?? '';
+		$pageData['description'] = $this->request->post['description'] ?? '';
 
-		echo $this->view->render( 'pages/edit.view', [
-			'error' => $this->request->errors(),
+		return $this->view( 'pages.edit', [
+			'error'    => $this->request->errors(),
 			'pageData' => $pageData,
-		]);
+		] );
 	}
 
-	public function destroy($id): void {
+
+	public function destroy($id): Response {
 		$this->page->delete($id);
-		header('Location: /pages/');
-		exit();
+		return $this->redirect('/pages/');
 	}
 }

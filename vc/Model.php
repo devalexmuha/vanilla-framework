@@ -66,7 +66,7 @@ abstract class Model {
 		return $results;
 	}
 
-	public function getByCol( string $column, string $value ): array|bool {
+	public function getByCol( string $column, string $value ): array {
 
 		$allowed = [ 'slug', 'name', 'id' ];
 		if ( ! in_array( $column, $allowed, true ) ) {
@@ -87,6 +87,31 @@ abstract class Model {
 
 		if(empty($results)) {
 			throw new PageNotFoundException("No results found for {$this->getTableName()}");
+		}
+
+		return $results;
+	}
+
+	public function getUser(string $value, string $column = 'email') : array|bool {
+		$pdo = $this->db->connect();
+
+		$allowed = [ 'email', 'name', 'id' ];
+		if ( ! in_array( $column, $allowed, true ) ) {
+			throw new \InvalidArgumentException( "Invalid column: {$column}" );
+		}
+
+		$sql = "SELECT *
+            FROM `{$this->getTableName()}`
+            WHERE `{$column}` = :value";
+
+		$stmt = $pdo->prepare( $sql );
+		$stmt->bindValue( ':value', $value, PDO::PARAM_STR );
+		$stmt->execute();
+
+		$results = $stmt->fetch( PDO::FETCH_ASSOC );
+
+		if(empty($results)) {
+			return false;
 		}
 
 		return $results;

@@ -22,7 +22,7 @@
         </div>
 
         <!-- admin actions -->
-        @if ( ! empty( $_SESSION['logged_in'] ) )
+        @if ( ! empty( $_SESSION['loggedIn'] ) )
         <div class="mt-10 flex items-center gap-4 border-t border-line pt-6 font-mono text-sm">
 
             <a href="/page/{{ $pageData['id'] }}/edit/"
@@ -32,7 +32,7 @@
 
             <form action="/page/{{ $pageData['id'] }}/delete/" method="post"
                   onsubmit="return confirm('Delete this page? This cannot be undone.');">
-                <input type="hidden" name="csrf_token">
+                  <input type="hidden" name="csrf_token" value = "{{ getCsrf() }}">
                 <button type="submit"
                         class="border border-accent-deep px-4 py-1.5 uppercase tracking-wider text-accent-deep transition-colors hover:cursor-pointer hover:bg-accent-deep hover:text-on-accent">
                     Delete

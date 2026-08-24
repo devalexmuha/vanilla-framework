@@ -101,3 +101,9 @@ if ( ! function_exists( 'seoSlug' ) ) {
 		return $slug;
 	}
 }
+
+if ( ! function_exists( 'getCsrf' ) ) {
+	function getCsrf(): string {
+		return VC\Auth::getCsrf();
+	}
+}

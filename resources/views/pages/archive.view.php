@@ -17,21 +17,7 @@
         @else
             <div class="flex flex-col">
                 @foreach ( $pageData as $page )
-                    <a href="/page/{{ $page['slug'] }}"
-                       class="group flex flex-col gap-2 border-b border-line py-6 transition-colors duration-300 ease-out hover:border-accent">
-
-                        <h2 class="font-display text-xl font-semibold text-ink transition-colors duration-300 ease-out group-hover:text-accent">
-                            {{ $page['name'] }}
-                        </h2>
-
-                        <p class="text-content-text text-ink-soft">
-                            {{ mb_strimwidth( trim( $page['description'] ), 0, 140, '…' ) }}
-                        </p>
-
-                        <span class="mt-1 font-mono text-xs uppercase tracking-wider text-ink-soft transition-colors duration-300 ease-out group-hover:text-accent">
-                        Read &rarr;
-                    </span>
-                    </a>
+                    <vc-partials.article-card/>
                 @endforeach
             </div>
         @endif

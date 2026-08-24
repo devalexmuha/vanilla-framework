@@ -16,7 +16,7 @@ class Dispatcher {
 	) {
 	}
 
-	public function handle( Request $request ): void {
+	public function handle( Request $request ): Response {
 
 		$path = $this->getPath($request->uri);
 
@@ -34,6 +34,7 @@ class Dispatcher {
 		}
 
 		$controller = $this->container->get( $className );
+		$controller->setResponse($this->container->get(Response::class));
 
 		if ( ! method_exists( $controller, $method ) ) {
 			throw new PageNotFoundException( "Method {$method} not found" );
@@ -42,7 +43,7 @@ class Dispatcher {
 		$args = $params;
 		unset( $args['controller'], $args['method'] );
 
-		$controller->{$method}( ...$args );
+		return $controller->{$method}( ...$args );
 	}
 
 	protected function getPath($uri): string {
