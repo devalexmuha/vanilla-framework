@@ -3,7 +3,7 @@
 namespace App\Model;
 
 use PDO;
-use VC\Model;
+use VC\Database\Model;
 
 class User extends Model {
 

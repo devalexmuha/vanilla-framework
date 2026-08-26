@@ -1,9 +1,9 @@
 <?php
 
-namespace VC;
+namespace VC\Http\Middleware;
 
-use VC\Request;
-use VC\Response;
+use VC\Http\Request;
+use VC\Http\Response;
 
 interface RequestHandlerInterface
 {

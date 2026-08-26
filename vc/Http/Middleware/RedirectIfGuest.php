@@ -1,11 +1,10 @@
 <?php
 
-namespace VC\Middleware;
+namespace VC\Http\Middleware;
 
-use VC\Request;
-use VC\RequestHandlerInterface;
-use VC\Response;
-use VC\Session;
+use VC\Http\Request;
+use VC\Http\Response;
+use VC\Session\SessionManager;
 
 class RedirectIfGuest {
 	public function __construct( private Response $response ) {
@@ -13,7 +12,7 @@ class RedirectIfGuest {
 
 	public function process( Request $request, RequestHandlerInterface $next ): Response {
 
-		if ( ! Session::get( 'loggedIn' ) ) {
+		if ( ! SessionManager::get( 'loggedIn' ) ) {
 			$this->response->redirect( '/log-in/' );
 			return $this->response;
 		}

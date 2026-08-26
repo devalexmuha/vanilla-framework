@@ -17,6 +17,7 @@
 			</a>
 
 			<form action="/log-out/" method="post">
+                @csrf
 				<button type="submit"
 				        class="uppercase tracking-wider text-accent underline-offset-4 transition-colors hover:cursor-pointer hover:underline">
 					Log out

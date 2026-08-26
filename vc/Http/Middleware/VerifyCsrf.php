@@ -1,22 +1,24 @@
 <?php
 
-namespace VC\Middleware;
+namespace VC\Http\Middleware;
 
-use VC\Auth;
-use VC\MiddlewareInterface;
-use VC\Request;
-use VC\RequestHandlerInterface;
-use VC\Response;
+use VC\Http\Request;
+use VC\Http\Response;
+use VC\Session\Auth;
 
 class VerifyCsrf implements MiddlewareInterface {
 	public function __construct( private Response $response ) {
 	}
 
 	public function process( Request $request, RequestHandlerInterface $next ): Response {
-		$token = $request->post['csrf'];
+		if ( empty( $request->post ) ) {
+			return $next->handle( $request );
+		}
+
+		$token = $request->post[ 'csrf_token'] ?? '';
 		if ( ! Auth::verifyCsrf( $token ) ) {
-			$this->response->setStatusCode( 403 );
-			$this->response->redirect('/pages/');
+			$this->response->redirect( '/' );
+
 			return $this->response;
 		}
 		return $next->handle( $request );

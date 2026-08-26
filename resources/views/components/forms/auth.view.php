@@ -1,5 +1,5 @@
 <form action="/log-in" method="post" class="flex flex-col gap-5">
-	  <input type="hidden" name="csrf_token" value = "{{ getCsrf() }}">
+	  @csrf
 
 	<div class="flex flex-col gap-1.5">
 		<label for="email" class="font-mono text-xs uppercase tracking-wider text-ink-soft">Email</label>
@@ -9,7 +9,7 @@
 
 	<div class="flex flex-col gap-1.5">
 		<label for="pass" class="font-mono text-xs uppercase tracking-wider text-ink-soft">Password</label>
-		<input type="password" name="pass" id="pass"
+		<input type="password" name="pass" id="pass" required
 		       class="w-full border border-line bg-surface px-3 py-2 text-ink outline-none transition-colors duration-300 ease-out focus:border-accent">
 	</div>
 

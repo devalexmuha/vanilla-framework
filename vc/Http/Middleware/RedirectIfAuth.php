@@ -1,12 +1,10 @@
 <?php
 
-namespace VC\Middleware;
+namespace VC\Http\Middleware;
 
-use VC\MiddlewareInterface;
-use VC\Request;
-use VC\RequestHandlerInterface;
-use VC\Response;
-use VC\Session;
+use VC\Http\Request;
+use VC\Http\Response;
+use VC\Session\SessionManager;
 
 class RedirectIfAuth implements MiddlewareInterface{
 
@@ -15,9 +13,9 @@ class RedirectIfAuth implements MiddlewareInterface{
 
 	public function process(Request $request, RequestHandlerInterface $next): Response {
 
-		if ( Session::get( 'loggedIn' ) ) {
+		if ( SessionManager::get( 'loggedIn' ) ) {
 			$this->response->redirect( '/pages/' );
-			return $this->response; // find out how this works in a chain
+			return $this->response;
 		}
 
 		return $next->handle($request);

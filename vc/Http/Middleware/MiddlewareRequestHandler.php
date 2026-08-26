@@ -2,7 +2,10 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Http\Middleware;
+
+use VC\Http\Request;
+use VC\Http\Response;
 
 class MiddlewareRequestHandler implements RequestHandlerInterface {
 	public function __construct(

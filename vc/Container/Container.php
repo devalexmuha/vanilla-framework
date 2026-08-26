@@ -2,12 +2,11 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Container;
 
 use Closure;
 use ReflectionClass;
 use ReflectionNamedType;
-use VC\Exceptions\ContainerException;
 
 class Container {
 

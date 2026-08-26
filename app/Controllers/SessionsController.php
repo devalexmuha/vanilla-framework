@@ -5,10 +5,10 @@ declare( strict_types=1 );
 namespace App\Controllers;
 
 use App\Model\User;
-use VC\Auth;
-use VC\Controller;
-use VC\Response;
-use VC\Session;
+use VC\Http\Controller;
+use VC\Http\Response;
+use VC\Session\Auth;
+use VC\Session\SessionManager;
 
 class SessionsController extends Controller {
 
@@ -16,7 +16,7 @@ class SessionsController extends Controller {
 	}
 
 	public function create(): Response {
-		if ( Session::get( 'loggedIn' ) ) {
+		if ( SessionManager::get( 'loggedIn' ) ) {
 			return $this->redirect( '/pages/' );
 		}
 
@@ -30,7 +30,7 @@ class SessionsController extends Controller {
 		if ( $userData = $this->user->getUser( $requestData ) ) {
 
 			if ( Auth::attempt( $requestData['pass'], $userData['hash'] ) ) {
-				Session::store( [
+				SessionManager::store( [
 					'id'    => $userData['id'],
 					'name'  => $userData['name'],
 					'email' => $userData['email'],

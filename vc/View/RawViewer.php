@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\View;
 
 class RawViewer implements ViewerInterface {
 

@@ -2,10 +2,10 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Database;
 
-use PDO;
 use App\Database;
+use PDO;
 use VC\Exceptions\PageNotFoundException;
 
 abstract class Model {

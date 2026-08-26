@@ -104,6 +104,6 @@ if ( ! function_exists( 'seoSlug' ) ) {
 
 if ( ! function_exists( 'getCsrf' ) ) {
 	function getCsrf(): string {
-		return VC\Auth::getCsrf();
+		return \VC\Session\SessionManager::getCsrf();
 	}
 }

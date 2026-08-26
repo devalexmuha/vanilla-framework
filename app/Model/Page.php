@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use VC\Model;
+use VC\Database\Model;
 
 class Page extends Model {
 

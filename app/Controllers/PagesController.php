@@ -5,8 +5,8 @@ declare( strict_types=1 );
 namespace App\Controllers;
 
 use App\Model\Page;
-use VC\Controller;
-use VC\Response;
+use VC\Http\Controller;
+use VC\Http\Response;
 
 class PagesController extends Controller {
 

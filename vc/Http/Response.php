@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Http;
 
 class Response
 {
@@ -10,11 +10,11 @@ class Response
 
 	private array $headers = [];
 
-	private int $status_code = 0;
+	private int $statusCode = 0;
 
 	public function setStatusCode(int $code): void
 	{
-		$this->status_code = $code;
+		$this->statusCode = $code;
 	}
 
 	public function redirect(string $url): void
@@ -39,9 +39,9 @@ class Response
 
 	public function send(): void
 	{
-		if ($this->status_code) {
+		if ($this->statusCode) {
 
-			http_response_code($this->status_code);
+			http_response_code($this->statusCode);
 		}
 
 		foreach ($this->headers as $header) {

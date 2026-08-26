@@ -1,6 +1,6 @@
 <?php
 
-use VC\Container;
+use VC\Container\Container;
 
 $container = new Container();
 
@@ -10,6 +10,6 @@ $user = env('DB_USER');
 $pass = env('DB_PASS');
 
 $container->set( App\Database::class, fn () => new App\Database( $host, $name, $user, $pass ) );
-$container->set( VC\Request::class, fn () => VC\Request::createFromGlobals() );
+$container->set( \VC\Http\Request::class, fn () => \VC\Http\Request::createFromGlobals() );
 
 return $container;

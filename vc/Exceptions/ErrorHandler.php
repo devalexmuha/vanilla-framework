@@ -2,11 +2,10 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Exceptions;
 
 use ErrorException;
 use Throwable;
-use VC\Exceptions\PageNotFoundException;
 
 class ErrorHandler {
 
@@ -36,7 +35,7 @@ class ErrorHandler {
 		if ( $showErrors ) {
 			echo "<pre>{$exception}</pre>";
 		} else {
-			require __DIR__ . "/views/errors/error.view.php";
+			require __DIR__ . "/../View/views/errors/error.view.php";
 		}
 
 	}

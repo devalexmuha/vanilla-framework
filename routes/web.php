@@ -1,8 +1,8 @@
 <?php
 
-use App\Controllers\SessionsController;
 use App\Controllers\PagesController;
-use VC\Router;
+use App\Controllers\SessionsController;
+use VC\Routing\Router;
 
 $router = new Router();
 

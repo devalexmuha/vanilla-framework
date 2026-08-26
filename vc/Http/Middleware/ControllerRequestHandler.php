@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace VC;
+namespace VC\Http\Middleware;
 
-use VC\Controller;
-use VC\Request;
-use VC\RequestHandlerInterface;
-use VC\Response;
+use VC\Http\Controller;
+use VC\Http\Request;
+use VC\Http\Response;
 
 class ControllerRequestHandler implements RequestHandlerInterface
 {

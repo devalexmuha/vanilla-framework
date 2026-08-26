@@ -2,16 +2,13 @@
 
 declare( strict_types=1 );
 
-namespace VC;
-
-use VC\ViewerInterface;
-use VC\Session;
+namespace VC\View;
 
 class TemplateViewer implements ViewerInterface {
 
 	public function render( string $template, array $data = [] ): string {
 
-		$viewsDir = dirname( __DIR__ ) . "/resources/views";
+		$viewsDir = dirname( __DIR__, 2 ) . "/resources/views";
 		if ( str_contains( $template, '.' ) ) {
 			$template = str_replace( '.', '/', $template );
 		}
@@ -31,9 +28,9 @@ class TemplateViewer implements ViewerInterface {
 			$code = $this->getBlocks( $code, $componentsDir );
 		}
 
-		$code = $this->escape( $code );
-
 		$code = $this->directives( $code );
+
+		$code = $this->escape( $code );
 
 		extract( $data, EXTR_SKIP );
 
@@ -58,6 +55,8 @@ class TemplateViewer implements ViewerInterface {
 
 		$code = preg_replace( '#@else\b#', '<?php else: ?>', $code );
 
+		$code = preg_replace( '#@csrf\b#', '<input type="hidden" name="csrf_token" value = "{{ getCsrf() }}">', $code );
+
 		$code = preg_replace(
 			"#@(endif|endforeach|endfor|endwhile)#",
 			"<?php \$1; ?>",
@@ -69,6 +68,7 @@ class TemplateViewer implements ViewerInterface {
 
 	public function getBlocks( string $code, string $componentsDir ): string {
 		if ( preg_match_all( '#<vc-(?<dir>[\w-]+)\.(?<file>[\w-]+)/>#s', $code, $matches, PREG_SET_ORDER ) ) {
+
 			foreach ( $matches as $match ) {
 				$dir       = $match['dir'];
 				$file      = $match['file'];

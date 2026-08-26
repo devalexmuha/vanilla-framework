@@ -2,29 +2,14 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Session;
 
 class Auth {
 
-	public static function startSession(): void {
-		if ( session_status() === PHP_SESSION_NONE ) {
-			session_start();
-		}
-	}
-
-	public static function getCsrf(): string {
-		if ( empty( Session::get( 'csrf' ) ) ) {
-			Session::store( [
-				'csrf' => bin2hex( random_bytes( 32 ) )
-			] );
-		}
-
-		return Session::get( 'csrf' );
-	}
-
 	public static function attempt( string $pass, string $hash ): bool {
 		if ( password_verify( $pass, $hash ) ) {
-			Session::store( [
+			session_regenerate_id(true);
+			SessionManager::store( [
 				'loggedIn' => true
 			] );
 
@@ -36,7 +21,7 @@ class Auth {
 
 	public static function verifyCsrf( string $token ): bool {
 
-		return $token === self::getCsrf();
+		return $token === SessionManager::getCsrf();
 
 	}
 

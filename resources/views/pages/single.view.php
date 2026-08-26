@@ -32,7 +32,7 @@
 
             <form action="/page/{{ $pageData['id'] }}/delete/" method="post"
                   onsubmit="return confirm('Delete this page? This cannot be undone.');">
-                  <input type="hidden" name="csrf_token" value = "{{ getCsrf() }}">
+                  @csrf
                 <button type="submit"
                         class="border border-accent-deep px-4 py-1.5 uppercase tracking-wider text-accent-deep transition-colors hover:cursor-pointer hover:bg-accent-deep hover:text-on-accent">
                     Delete

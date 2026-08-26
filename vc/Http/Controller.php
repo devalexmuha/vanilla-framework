@@ -2,7 +2,9 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Http;
+
+use VC\View\ViewerInterface;
 
 abstract class Controller {
 

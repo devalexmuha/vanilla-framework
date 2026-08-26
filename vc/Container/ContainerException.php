@@ -1,5 +1,5 @@
 <?php
 
-namespace VC\Exceptions;
+namespace VC\Container;
 
 class ContainerException extends \Exception {}

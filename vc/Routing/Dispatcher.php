@@ -2,13 +2,17 @@
 
 declare( strict_types=1 );
 
-namespace VC;
+namespace VC\Routing;
 
-use BadMethodCallException;
-use VC\MiddlewareRequestHandler;
-use InvalidArgumentException;
 use UnexpectedValueException;
+use VC\Container\Container;
 use VC\Exceptions\PageNotFoundException;
+use VC\Http\Middleware\ControllerRequestHandler;
+use VC\Http\Middleware\MiddlewareRequestHandler;
+use VC\Http\Request;
+use VC\Http\Response;
+use VC\View\RawViewer;
+use VC\View\TemplateViewer;
 
 class Dispatcher {
 
@@ -55,35 +59,11 @@ class Dispatcher {
 		return $middlewareHandler->handle( $request );
 	}
 
-	private function getMiddleware( array $params ): array {
-		if ( empty( $params['middleware'] ) ) {
-
-			return [];
-
-		}
-
-		$middleware = explode( "|", $params["middleware"] );
-
-		array_walk( $middleware, function ( &$value ) {
-
-			if ( ! array_key_exists( $value, $this->middlewareConfig ) ) {
-
-				throw new UnexpectedValueException( "Middleware '$value' not found in config settings" );
-
-			}
-
-			$value = $this->container->get( $this->middlewareConfig[ $value ] );
-
-		} );
-
-		return $middleware;
-	}
-
 	protected function getPath( $uri ): string {
 		$path = parse_url( $uri, PHP_URL_PATH );
 
 		if ( $path === false ) {
-			throw new VC\Exceptions\PageNotFoundException( "Malformed URL:
+			throw new PageNotFoundException( "Malformed URL:
                                         '{$_SERVER["REQUEST_URI"]}'" );
 		}
 
@@ -97,5 +77,35 @@ class Dispatcher {
 			'raw' => RawViewer::class,
 			default => TemplateViewer::class,
 		};
+	}
+
+	private function getMiddleware( array $params ): array {
+
+		$middleware = array_filter( array_values( array_unique( [ 'csrf', ...explode( "|", $params["middleware"] ) ] ) ) );
+
+		$base = $this->middlewareBase();
+
+		array_walk( $middleware, function ( &$value ) use ( $base ) {
+
+			if ( ! array_key_exists( $value, $base ) ) {
+
+				throw new UnexpectedValueException( "Middleware '$value' not found in config settings" );
+
+			}
+
+			$value = $this->container->get( $base[ $value ] );
+
+		} );
+
+		return $middleware;
+	}
+
+	private function middlewareBase(): array {
+		return [
+			"csrf"  => \VC\Http\Middleware\VerifyCsrf::class,
+			"auth"  => \VC\Http\Middleware\RedirectIfGuest::class,
+			"guest" => \VC\Http\Middleware\RedirectIfAuth::class,
+			...$this->middlewareConfig,
+		];
 	}
 }

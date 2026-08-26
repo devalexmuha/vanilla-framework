@@ -1,6 +1,9 @@
 <?php
 
-namespace VC;
+namespace VC\Http\Middleware;
+
+use VC\Http\Request;
+use VC\Http\Response;
 
 interface MiddlewareInterface
 {
