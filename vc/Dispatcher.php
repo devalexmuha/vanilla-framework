@@ -15,7 +15,7 @@ class Dispatcher {
 	public function __construct(
 		private readonly Router $router,
 		private readonly Container $container,
-		private array $middlewareConfig
+		private readonly array $middlewareConfig
 	) {
 	}
 

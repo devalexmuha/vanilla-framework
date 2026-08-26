@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Middleware;
+namespace VC\Middleware;
 
 use VC\MiddlewareInterface;
 use VC\Request;
-use VC\Response;
 use VC\RequestHandlerInterface;
+use VC\Response;
 use VC\Session;
 
 class RedirectIfAuth implements MiddlewareInterface{

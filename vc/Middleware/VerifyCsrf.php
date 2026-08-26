@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Middleware;
+namespace VC\Middleware;
 
 use VC\Auth;
 use VC\MiddlewareInterface;

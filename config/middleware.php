@@ -1,6 +1,6 @@
 <?php
 
 return [
-    "auth" => \App\Middleware\RedirectIfGuest::class,
-    "guest" => \App\Middleware\RedirectIfAuth::class,
+    "auth" => \VC\Middleware\RedirectIfGuest::class,
+    "guest" => \VC\Middleware\RedirectIfAuth::class,
 ];
