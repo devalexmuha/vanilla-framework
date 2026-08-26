@@ -16,8 +16,9 @@ VC\Auth::startSession();
 
 $router    = require_once ROOT_PATH . '/routes/web.php';
 $container = require_once ROOT_PATH . '/config/container.php';
+$middleware = require_once ROOT_PATH . '/config/middleware.php';
 
-$dispatcher = new VC\Dispatcher( $router, $container );
+$dispatcher = new VC\Dispatcher( $router, $container, $middleware );
 
 $request = VC\Request::createFromGlobals();
 $response = $dispatcher->handle($request);

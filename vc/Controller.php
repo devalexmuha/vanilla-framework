@@ -8,27 +8,27 @@ abstract class Controller {
 
 	protected Request $request;
 
-	protected TemplateViewerInterface $viewer;
+	protected ViewerInterface $viewer;
 
-	protected function setRequest(Request $request): void
+	protected Response $response;
+
+	public function setRequest(Request $request): void
 	{
-		$this->request = $request;
+		$this->request = $request; // how construction happens?
 	}
 
-	protected function setViewer(TemplateViewerInterface $viewer): void
+	public function setViewer(ViewerInterface $viewer): void
 	{
 		$this->viewer = $viewer;
 	}
-
-	protected Response $response;
 
 	public function setResponse( Response $response ): void {
 		$this->response = $response;
 	}
 
-	protected function view(string $template, array $data = []): Response
+	protected function view(string $template, array $data = [], string $layout = 'main'): Response
 	{
-		$this->response->setBody($this->viewer->render($template, $data));
+		$this->response->setBody($this->viewer->render($template, $data, $layout));
 
 		return $this->response;
 	}

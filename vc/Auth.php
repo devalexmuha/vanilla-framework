@@ -34,6 +34,12 @@ class Auth {
 		return false;
 	}
 
+	public static function verifyCsrf( string $token ): bool {
+
+		return $token === self::getCsrf();
+
+	}
+
 	public static function logout(): void {
 		$_SESSION = [];
 		if ( ini_get( "session.use_cookies" ) ) {

@@ -4,10 +4,10 @@ declare( strict_types=1 );
 
 namespace VC;
 
-use VC\TemplateViewerInterface;
+use VC\ViewerInterface;
 use VC\Session;
 
-class TemplateViewer implements TemplateViewerInterface {
+class TemplateViewer implements ViewerInterface {
 
 	public function render( string $template, array $data = [] ): string {
 

@@ -2,7 +2,7 @@
 
 <vc-layouts.main>
     <form action="/page/" method="post" class="mx-auto max-w-2xl">
-          <input type="hidden" name="csrf_token" value = "{{ getCsrf() }}">
+        <input type="hidden" name="csrf_token" value="{{ getCsrf() }}">
 
         <a href="/pages"
            class="font-mono text-xs uppercase tracking-wider text-ink-soft transition-colors hover:text-accent">
@@ -27,7 +27,7 @@
 
         @if ( ! empty( $error ) )
         <p class="mt-4 font-mono text-sm text-accent-deep">
-            Name can't be empty.
+            {{ $error }}
         </p>
         @endif
 

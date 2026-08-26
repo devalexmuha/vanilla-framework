@@ -25,7 +25,7 @@
 
         @if ( ! empty( $error ) )
         <p class="mt-4 font-mono text-sm text-accent-deep">
-            Name can't be empty.
+           {{ $error }}
         </p>
         @endif
 

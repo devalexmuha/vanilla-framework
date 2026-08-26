@@ -1,40 +1,40 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace VC;
 
 class Router {
-	private array $get_routes = [];
-	private array $post_routes = [];
+	private array $getRoutes = [];
+	private array $postRoutes = [];
+
+	private string $currentGroupMiddleware = '';
+
+	public function group( string $middleware, callable $callback ): void {
+		$this->currentGroupMiddleware = $middleware;
+		$callback( $this );
+	}
 
 	public function get( string $path, array $params = [] ): void {
-		if ( ! empty( $params ) ) {
-			$this->get_routes[ $path ] = [
-				'controller' => $params[0],
-				'method'     => $params[1],
-			];
-
-			return;
-		}
-		$this->get_routes[ $path ] = [];
+		$this->getRoutes[ $path ] = [
+			'controller' => $params[0] ?? null,
+			'method'     => $params[1] ?? null,
+			'middleware' => $this->currentGroupMiddleware,
+		];
 	}
 
 	public function post( string $path, array $params = [] ): void {
-		if ( ! empty( $params ) ) {
-			$this->post_routes[ $path ] = [
-				'controller' => $params[0],
-				'method'     => $params[1],
-			];
-
-			return;
-		}
-		$this->post_routes[ $path ] = [];
+		$this->postRoutes[ $path ] = [
+			'controller' => $params[0] ?? null,
+			'method'     => $params[1] ?? null,
+			'middleware' => $this->currentGroupMiddleware,
+		];
 	}
 
 	public function match( string $path, string $request ): bool|array {
-		$routes = $this->sortRoutes($request);
-		$path = strtolower(trim($path, '/'));
+		$routes = $this->sortRoutes( $request );
+
+		$path   = strtolower( trim( $path, '/' ) );
 		foreach ( $routes as $route => $params ) {
 
 			$pattern = $this->getThePattern( $route );
@@ -49,14 +49,15 @@ class Router {
 			}
 
 		}
+
 		return false;
 	}
 
-	private function sortRoutes(string $request): array {
-		if($request === 'POST') {
-			$routes = $this->post_routes;
-		} else{
-			$routes = $this->get_routes;
+	private function sortRoutes( string $request ): array {
+		if ( $request === 'POST' ) {
+			$routes = $this->postRoutes;
+		} else {
+			$routes = $this->getRoutes;
 		}
 		uksort( $routes, fn( $a, $b ) => $this->literalCount( $b ) <=> $this->literalCount( $a ) ); // b -> a descending
 
@@ -105,6 +106,10 @@ class Router {
 
 	private function buildControllerClass( string $name ): string {
 		return '\\App\\Controllers\\' . ucfirst( $name ) . 's' . 'Controller';
+	}
+
+
+	public function middleware() {
 	}
 
 }

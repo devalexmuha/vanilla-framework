@@ -10,12 +10,12 @@ use VC\Exceptions\PageNotFoundException;
 
 abstract class Model {
 
-	public function __construct( private readonly Database $db ) {
-	}
+	public function __construct( protected readonly Database $db ) {}
 
 	protected string $table;
+	protected array $errors = [];
 
-	private function getTableName(): string {
+	protected function getTableName(): string {
 		if ( ! empty( $this->table ) ) {
 
 			return $this->table;
@@ -92,32 +92,14 @@ abstract class Model {
 		return $results;
 	}
 
-	public function getUser(string $value, string $column = 'email') : array|bool {
-		$pdo = $this->db->connect();
+	public function insert( array $data ): bool {
 
-		$allowed = [ 'email', 'name', 'id' ];
-		if ( ! in_array( $column, $allowed, true ) ) {
-			throw new \InvalidArgumentException( "Invalid column: {$column}" );
-		}
+		$data = $this->validate($data);
 
-		$sql = "SELECT *
-            FROM `{$this->getTableName()}`
-            WHERE `{$column}` = :value";
-
-		$stmt = $pdo->prepare( $sql );
-		$stmt->bindValue( ':value', $value, PDO::PARAM_STR );
-		$stmt->execute();
-
-		$results = $stmt->fetch( PDO::FETCH_ASSOC );
-
-		if(empty($results)) {
+		if ( ! $data) {
 			return false;
 		}
 
-		return $results;
-	}
-
-	public function insert( array $data ): bool {
 		$columns = implode(", ", array_keys($data));
 		$placeholders = implode(", ", array_fill(0, count($data), "?"));
 
@@ -162,6 +144,11 @@ abstract class Model {
 
 	public function update(string $id, array $data): bool
 	{
+		$data = $this->validate($data);
+
+		if ( ! $data) {
+			return false;
+		}
 
 		$sql = "UPDATE {$this->getTableName()} ";
 
@@ -201,5 +188,18 @@ abstract class Model {
 		return $stmt->execute();
 	}
 
+	protected function validate(array $data): array|false {
+		return $data;
+	}
+
+	public function addError(string $field, string $message): void
+	{
+		$this->errors[$field] = $message;
+	}
+
+	public function getErrors(): array
+	{
+		return $this->errors;
+	}
 
 }
